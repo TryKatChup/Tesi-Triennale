@@ -1,0 +1,93 @@
+% Rappresenta il tipo di documento
+\documentclass[12pt, twoside]{book}
+
+% Elenco dei packages utilizzati
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{color}
+\usepackage[nottoc]{tocbibind}
+\usepackage{emptypage}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage[style=authoryear,sorting=nty,backend=bibtex]{biblatex}
+\usepackage{csquotes}
+\usepackage{pdfpages}
+
+% Stile di pagina
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\tocetcmark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\bfseries\rightmark}
+\fancyhead[RE]{\bfseries\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\fancypagestyle{plain}{
+    \fancyhead{}
+    \renewcommand{\headrulewidth}{0pt}
+}
+\setlength{\headheight}{28pt}
+
+% Stile dei titoli dei capitoli
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]
+{\Huge\bfseries}
+{\thechapter\hsp\textcolor{gray75}{|}\hsp}
+{0pt}
+{\Huge\bfseries}
+
+% Impostazioni bibliografia
+\addbibresource{./bibliografia/bibliografia.bib}
+
+% Ridefinizione enfasi
+\DeclareTextFontCommand{\emph}{\bfseries\em}
+
+% Inizio del documento
+\begin{document}
+
+% Frontespizio
+\includepdf{./frontespizio/frontespizio.pdf}
+
+\cleardoublepage
+\begin{flushright}
+\thispagestyle{empty}
+\null\vspace{\stretch {1}}
+\textit{Dedica dedicosa.\break --- A capo.}
+\vspace{\stretch{2}}\null
+\end{flushright}
+\cleardoublepage
+
+% Indice
+\tableofcontents
+
+% Elenco delle figure
+\phantomsection
+\listoffigures
+
+% Introduzione
+\input{./introduzione/introduzione}
+
+% Capitoli
+\input{./capitoli/capitolo1}
+\input{./capitoli/capitolo2}
+\input{./capitoli/capitolo3}
+
+% Conclusioni
+\input{./conclusioni/conclusioni}
+
+% Ringraziamenti
+\input{./ringraziamenti/ringraziamenti}
+
+% Bibliografia
+%\input{bibliografia/bibliografia}
+\phantomsection
+\printbibliography[heading=bibintoc]
+
+\end{document}
