@@ -19,12 +19,12 @@ Per questo motivo, nel paper riferimento di Biijeta et alii~\cite{biijeta} sono 
 \end{itemize}
 
 \subsection{Prerequisiti}
-Per la creazione dei due modelli visti precedentemente, è stato utilizzato un leak disponibile sul Deep Web, contenente 1.4 miliardi di coppie mail-password appartenenti ad account su social come LinkedIn, MySpace, Badoo, Yahoo, Zoosk; successivamente è stato filtrato nel seguente modo:
+Per la creazione dei due modelli visti precedentemente, è stato utilizzato un leak disponibile sul Deep Web, di dimensione pari a 45 GB e contenente 1.4 miliardi di coppie mail-password appartenenti ad account su social come LinkedIn, MySpace, Badoo, Yahoo, Zoosk; successivamente è stato filtrato nel seguente modo:
 
 \begin{itemize}
     \item sono state rimosse le stringhe che contenevano 20 o più caratteri esadecimali;
     \item sono stati rimossi hash non decodificati;
-    \item sono state rimosse le password più lunghe di 30 caratteri o più corte di 4 che contenevano caratteri non ASCII;
+    \item sono state rimosse le password più lunghe di 50 caratteri o più corte di 3 che contenevano caratteri non ASCII;
     \item sono stati rimossi 4528 utenti associati a centinaia di password, poiché è molto improbabile che siano account veri.
 \end{itemize}
 
@@ -142,7 +142,7 @@ Per verificare l'efficacia di un attacco della rete, in caso di password da indo
 
 Come primo attacco viene utilizzata la password $\tilde{w}$, in modo da verificare il suo riutilizzo senza varianti, mentre i restanti $q - 1$ vengono svolti in accordo alla tecnica di attacco scelta. Confrontando con altri modelli utilizzati, il migliore risultato è stato ottenuto da pass2path, compromettendo metà degli utenti (48.3\%) in al massimo mille tentativi.
 Si è osservato che con password riutilizzate, aumentano le probabilità di indovinare la password con pass2path.
-Inoltre è importante sottolineare che gli attacchi di tipo non mirato (untargeted) ottengono migliori performance se vengono eseguiti più di 1000 tentativi; al contrario pass2path è il migliore approccio nel caso in cui si proceda con un numero minore di 1000 tentativi.
+Inoltre è importante sottolineare che gli attacchi di tipo non mirato (untargeted) ottengono migliori performance se vengono eseguiti più di 1000 tentativi; al contrario pass2path è il migliore approccio nel caso in cui si proceda con un numero minore.
 
 
 I ricercatori hanno anche eseguito un vero e proprio attacco all'interno della loro università (Cornell University), in modo da potere testare su password diverse da quelle del dataset, ovvero appartenenti a studenti e professori. Il migliore risultato è stato ottenuto da pass2path, che in meno di 1000 tentativi è riuscito a scoprire la password del 8,4\% degli account.
@@ -162,7 +162,7 @@ Il funzionamento è il seguente:
     \item vengono utilizzati due possibili criteri come output:
     \begin{itemize}
         \item \textbf{guess rank}, ovvero il numero di tentativi di una tipologia di attacco fatti prima di indovinare la password.
-        \item \textbf{percentuale di similarità}, ovvero la somiglianza tra la potenziale password e la password associata all'utente
+        \item \textbf{percentuale di similarità}, ovvero la somiglianza tra la potenziale password e la password associata all'utente.
     \end{itemize}
 \end{itemize}
 
@@ -182,7 +182,7 @@ In questo modo vengono preservate le proprietà semantiche delle parole, come ad
 
 In particolare, nel problema in esame, la tecnica di word embedding viene applicata alle password: due password risultano simili se vengono scelte spesso dallo stesso utente. Ciò permette di stabilire quanto una password sia sicura, considerando tutte le password precedentemente scelte dall'utente, e di fornire un punteggio (ovvero la percentuale di similarità).
 
-A tal scopo, per costruire un passsword embedding model, viene utilizzato FastText, che impara la similarità dividendo la parola in una collezione di contesti, definiti come piccole sequenze di parole note come \emph{n-gram}. Le parole che appaiono spesso insieme nello stesso contesto vengono definite simili.
+A tal scopo, per costruire un password embedding model, viene utilizzato FastText, che impara la similarità dividendo la parola in una collezione di contesti, definiti come piccole sequenze di parole note come \emph{n-gram}. Le parole che appaiono spesso insieme nello stesso contesto vengono definite simili.
 
 \subsubsection{Allenamento di Fasttext}
 Per l'allenamento del modello di FastText vengono considerati i seguenti parametri:
@@ -213,7 +213,7 @@ Vengono definiti due parametri per la scelta di $\alpha$:
 In particolare, nel caso in esame:
 \begin{itemize}
     \item per vero positivo si intende una coppia di password simili correttamente rilevate come tali;
-    \item per falso positivio si intende una coppia di password diverse erroneamente rilevate come simili;
+    \item per falso positivo si intende una coppia di password diverse erroneamente rilevate come simili;
     \item per falso negativo si intende una coppia di password simili erroneamente non rilevate come tali.
 \end{itemize}
 Un valore di precision basso implica una imprecisa distinzione tra password simili e password non simili; un valore di recall basso invece comporta avere molte password simili non rilevate come tali.
@@ -228,6 +228,13 @@ Nel paper di riferimento di Biijeta et alii~\cite{biijeta} viene considerato un 
 \end{figure}
 \subsubsection{Modelli compressi di word embedding}
 Il modello prodotto da Biijeta et alii~\cite{biijeta} è stato successivamente compresso, in modo da ridurre la dimensione da 1.5 GB a 3 MB, senza che la qualità delle performance venisse ridotta, mediante tecniche di quantizzazione.
+Per la produzione del modello compresso si è tenuto conto del parametro $\eta$ che determina il rapporto di compressione. Per la valutazione della compressione, sono stati prodotti più modelli in base a differenti valori $\eta$; infine è stato scelto il modello con $\eta=5$ e dimensione complessiva di 3 MB, poiché il valore di recall non ha subito notevoli variazioni.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=9cm]{./immagini/compressed_model.png}
+    \label{compressed_model}
+    \caption{Precision e recall in base al rapporto di compressione $\eta$ del modello di Biijeta et alli~\cite{biijeta}}
+\end{figure}
 \subsection{Modifiche e analisi del progetto}
 
 Per questo progetto sono state effettuate diverse scelte:

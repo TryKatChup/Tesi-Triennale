@@ -18,7 +18,7 @@ Il 58\% dei breach conteneva dati personali~\cite{verizon}.
     \caption{Costo medio e frequenza di data breach causati da attacchi informatici, in base alla causa, nel 2020~\cite{ibmcost}}
 \end{figure}
 
-Sebbene la maggior parte delle password siano crittografate, è possibile risalire alla forma testuale mediante strumenti come Hashcat\footnote{\url{https://scholar.google.com/scholar?hl=en&as_sdt=0\%2C5&q=hashcat&btnG=}} e John The Ripper.
+Sebbene la maggior parte delle password siano crittografate, è possibile risalire alla forma testuale mediante strumenti come \href{https://github.com/hashcat/hashcat}{Hashcat} e \href{https://github.com/openwall/john}{John The Ripper}.
 
 In seguito alla diffusione delle credenziali, gli utenti decidono di cambiare password e la scelta ricade spesso su varianti usate su altri account.
 \section{Scelta di una nuova password}
@@ -72,7 +72,7 @@ Due parole risultano simili quando il valore del coseno è 1, ovvero quando l'an
 \end{figure}
 
 Nella figura sono mostrati i vettori di 3 parole (\textit{cherry}, \textit{digital} e \textit{information}) in uno spazio bidimensionale definiti dal numero di occorrenze in vicinanza alle parole \textit{computer} e \textit{pie}.
-Notare che l'angolo tra \textit{digital} e \textit{information} risulta minore rispetto all'angolo tra \textit{cherry} e \textit{information}.
+Come si può notare, l'angolo tra \textit{digital} e \textit{information} risulta minore rispetto all'angolo tra \textit{cherry} e \textit{information}.
 Quando due vettori risultano più simili tra loro, il valore del coseno risulta maggiore, ma l'angolo risulta minore. Il coseno assume valore massimo 1 quando l'angolo tra i due vettori risulta nullo (0°); il coseno degli altri angoli risulta inferiore a 1~\cite{cosine}.
 \subsection{Tipologie di word embedding}
 
@@ -95,20 +95,27 @@ Word2Vec utilizza due modelli di architetture:
     \item \emph{Skip-gram}: simile a CBOW, con la differenza che viene utilizzata la parola centrale per prevedere le parole circostanti relative allo stesso contesto.
 \end{itemize}
 
-\emph{CBOW} risulta più veloce ed efficace in caso di dataset di grandi dimensioni, tuttavia, nonostante la maggiore complessità, \emph{Skip-gram} è in grado di trovare parole mai viste, per dataset di minori dimensioni~\cite{mikolov2013efficient}.
+\emph{CBOW} risulta più veloce ed efficace in caso di dataset di grandi dimensioni, tuttavia, nonostante la maggiore complessità, \emph{Skip-gram} è in grado di trovare parole non presenti nel corpus, per dataset di minori dimensioni~\cite{mikolov2013efficient}.
 
 
 \subsubsection{FastText}
 
 FastText è una libreria open-source proposta da Facebook che estende Word2Vec, e consente un apprendimento efficiente di rappresentazioni di parole e di classificazioni di frasi.
 Anziché allenare un modello fornendo ogni singola parola di un dataset, FastText prevede l'apprendimento tramite \textit{n-gram} di ciascuna parola.
-Un esempio per capire cosa siano effettivamente gli n-gram è il seguente:
+
+Si definiscono n-gram di una parola costituita da $c_1...c_m$ caratteri la seguente sequenza:
+\begin{center}
+$\{ c_{i_1}, c_{i_2}, \ldots, c_{i_n} \mid \sum\limits_{j=1}^n i_{j} - i_{j-1} < 0 \}$    
+\end{center}
+Ad esempio, gli n-gram della parola ciao, con $n\_mingram = 1$ e $n\_maxgram = 4$, sono i seguenti:
+%Si considerino gli n-gram della parola $ciao$:
 
 \begin{center}
     $ciao = \{\{c, i, a, o\},\{ci, ia, ao\}, \{cia, iao\}, \{ciao\}\}$
 \end{center}
+$ciao$ viene espresso come l'insieme di tutte le sottostringhe di lunghezza minima pari a 1, e lunghezza massima pari a 4.
 
-In questo esempio, con $n\_mingram = 1$ e $n\_maxgram = 4$, $ciao$ viene espresso come l'insieme di tutte le sottostringhe di lunghezza minima pari a 1, e lunghezza massima pari a 4.
+%In questo esempio, con $n\_mingram = 1$ e $n\_maxgram = 4$, $ciao$ viene espresso come l'insieme di tutte le sottostringhe di lunghezza minima pari a 1, e lunghezza massima pari a 4.
 
 
 FastText consente di ottenere, con più probabilità rispetto a Word2Vec, parole \emph{out-of-dictionary}, ovvero parole sconosciute al modello in fase di training.
