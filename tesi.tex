@@ -22,9 +22,14 @@
 \usepackage{placeins}
 \usepackage{hyperref}
 \usepackage{footnote}
+\usepackage{minted}
+\usepackage{xcolor}
 
 % Stile di pagina
 \pagestyle{fancy}
+\definecolor{LightGray}{gray}{0.9}
+\usemintedstyle{colorful}
+
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\tocetcmark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
