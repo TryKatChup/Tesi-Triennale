@@ -1,2 +1,25 @@
 \chapter{Risultati}
+\section{Differenze tra modello normale e compresso}
+Dati i problemi che comportavano l'utilizzo dei modelli da 4.8 GB, si è scelto di utilizzare per l'analisi dei risultati le versioni compresse da appena 20 MB ottenute tramite product quantization.
+Per misurare la differenza di prestazioni tra il modello originale e la sua versione compressa si è considerato come riferimento il modello di Biijeta et alii, avente le seguenti caratteristiche:
+\begin{itemize}
+    \item traduzione della sequenza dei tasti premuti con \texttt{word2keypress}
+    \item numero minimo di n-gram pari a 1;
+    \item numero di epoche di training pari a 5.
+\end{itemize}
+
+Per entrambi i modelli si è tenuto conto del valore di precision e recall, in modo da fornire una valutazione efficace del modello.
+Sono state osservate differenze minime riguardanti i valori, motivo per il quale si è scelto di considerare soltanto le versioni compresse per valutare gli altri modelli.
+
+\section{Euristiche adottate}
+\subsection{Ground truth e prediction}
+Ground truth: cosa è
+Prediction: cosa è
+euristica.
+
+\section{Similarità: un confronto}
+\section{Criticità del modello proposto da Bijeeta et alii}
+\section{Rappresentazione grafica della distanza tra parole}
+
 \label{ch:risultati}
+
