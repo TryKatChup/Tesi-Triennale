@@ -1,7 +1,6 @@
 \chapter{Implementazione}
 \label{ch:implementazione}
-\section{Allenamento di un modello di word embedding tramite FastText}
-\subsection{Introduzione}
+
 Lo scopo del progetto è sviluppare un classificatore che, date due password, determini se sono simili tra loro (e quindi potenzialmente non sicure) o meno.
 
 A tal proposito sono stati implementati modelli di word embedding, i quali permettono di rappresentare parole in uno spazio vettoriale preservando proprietà semantiche quali la similarità e la co-occorrenza nel medesimo contesto.
@@ -19,7 +18,7 @@ Si è deciso di allenare 5 diversi modelli:
     \end{itemize}
 \end{itemize}
 
-\subsection{Precondizioni}
+\section{Precondizioni}
 Prima della fase di allenamento della rete, è necessario avere un dataset valido di password; nel progetto è stato utilizzato lo stesso data breach da 45 GB citato da Bijeeta et alii~\cite{biijeta}, tuttavia sono stati scelti criteri diversi di filtraggio:
 \begin{itemize}
     \item Sono state rimossi gli account con password con lunghezza inferiore a 4 caratteri o maggiore di 30.
@@ -43,13 +42,13 @@ Successivamente i risultati sono stati salvati in un file \texttt{csv} nel segue
     \texttt{sample@gmail.com: ["'97314348'", "'voyager<s>1'"]}
 \end{center}
 
-\subsection{Impostazioni dell'ambiente}
+\section{Impostazioni dell'ambiente}
 Per potere allenare il modello è stato utilizzato \texttt{gensim.FastText}~\cite{gensim}.
 \\
 \texttt{gensim} è una libreria python multipiattaforma e open source che racchiude un'ampia scelta di modelli di word embedding pre allenati~\cite{gensim}.
 Per estrapolare i dati dal file \texttt{csv} è stata sviluppata una classe ausiliaria \texttt{PasswordRetriever}.
-\subsection{Allenamento del modello}
-\subsubsection{Parametri di FastText}
+\section{Allenamento del modello}
+\subsection{Parametri di FastText}
 \begin{minted}[
     frame=lines,
     framesep=2mm,
@@ -76,7 +75,7 @@ Per questo progetto è stato utilizzato il modello \emph{Skip-gram} (\texttt{sg 
     \item \texttt{min\_n} e \texttt{max\_n} rappresentano rispettivamente il numero minimo e massimo degli n-gram. Gli N-gram vengono utilizzati per prevedere una sequenza di caratteri e il contesto di quest'ultima. In questo caso essi rappresentano una sequenza di caratteri contigui e il loro scopo è di dare informazioni di contesto e posizionali di una determinata sequenza all'interno di una password~\cite{biijeta}~\cite{gensim}.
 \end{itemize}
 
-\subsubsection{Allenare FastText}
+\subsection{Allenare FastText}
 La lista di password relativa a ciascun utente (\texttt{password\_list}) viene ottenuta grazie alla classe ausiliaria \texttt{PasswordRetriever}. Il modello di FastText si basa su \texttt{password\_list} e viene allenato con i parametri elencati precedentemente.
 
 \begin{minted}[
@@ -95,7 +94,7 @@ trained_model = FastText(password_list, size=SIZE, min_count=min_count,
                         min_n=min_n, max_n=max_n)
 \end{minted}
 
-\subsection{Compressione del modello}
+\section{Compressione del modello}
 Il modello allenato ha un peso complessivo pari a 4.8 GB, e ciò comporta i seguenti problemi:
 \begin{itemize}
     \item Meno efficiente in termini di spazio, di conseguenza l'utilizzo del modello è limitato su sistemi con vincoli di memoria o di spazio.
@@ -115,7 +114,7 @@ small_model = compress_fasttext.prune_ft_freq(big_model, pq=True)
 small_model.save('compressed_model')
 \end{minted}
 
-Viene definito come \emph{feature selection} il processo di selezione delle feature più importanti da usare per costruire un modello~\cite{feature}.
+Viene definito come \emph{feature selection} il processo di selezione delle feature più importanti da usare per costruire un modello~\cite{bishop2006pattern}~\cite{feature}.
 
 Per \emph{Product quantization} si intende un particolare tipo di quantizzazione vettoriale, che viene utilizzata per la compressione di modelli di linguaggio naturale e di elaborazione di immagini e consente di generare in modo non esponenziale una quantità grande di codice in tempi contenuti e con costi ridotti in termini di memoria~\cite{biijeta}~\cite{compress-fasttext}~\cite{quantization}.
 

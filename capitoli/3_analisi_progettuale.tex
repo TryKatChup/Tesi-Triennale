@@ -6,7 +6,7 @@ A tal proposito sono stati condotti esperimenti che, per controllare la similari
 
 \section{Modelli di similarità tra password basati sulle reti neurali}
 
-Solitamente le metriche che misurano la robustezza di password non tengono conto della cronologia delle password passate di un utente. 
+Solitamente le metriche che misurano la robustezza di password non tengono conto della cronologia delle password passate di un utente.
 Ciò può costituire un problema sia se si effettua un attacco contro un utente, sia per proteggerlo:
 \begin{itemize}
     \item Durante un attacco, si considerano determinate password note grazie a leak, tuttavia non è presente un approccio flessibile che elabori varianti di password di un determinato utente.
@@ -18,7 +18,7 @@ Per questo motivo, nel paper riferimento di Biijeta et alii~\cite{biijeta} sono 
     \item Per la difesa sono stati utilizzate tecniche di Natural Language Processing, in particolare modelli di word embedding, i quali generano una corrispondenza tra parole e vettori, mantenendo proprietà semantiche della password originale, come la similarità.
 \end{itemize}
 
-\subsection{Prerequisiti}
+\section{Prerequisiti}
 Per la creazione dei due modelli visti precedentemente, è stato utilizzato un leak disponibile sul Deep Web, di dimensione pari a 45 GB e contenente 1.4 miliardi di coppie mail-password appartenenti ad account su social come LinkedIn, MySpace, Badoo, Yahoo, Zoosk; successivamente è stato filtrato nel seguente modo:
 
 \begin{itemize}
@@ -44,22 +44,22 @@ Dal risultato del processo di filtraggio sono state osservati i seguenti punti:
 
 
 
-\subsection{Strategie di attacco: Pass2Path}
-\subsubsection{Euristiche e appartentenza di password}
+\section{Strategie di attacco: Pass2Path}
+\subsection{Euristiche e appartentenza di password}
 Una volta ottenuto il dataset, è necessario capire a quali persone appartengono gli account. A tal proposito vengono proposte tre euristiche:
 \begin{itemize}
     \item \textbf{Basata su email:} gli utenti vengono identificati solo dalla email. Ciascuna email appartiene a un solo utente.
-    \item \textbf{Basata sugli username:} si considera la stringa che precede \texttt{@} nell'indirizzo email. Un utente può possiedere più mail, tutte identificate dalla stringa che precede \texttt{@}. 
+    \item \textbf{Basata sugli username:} si considera la stringa che precede \texttt{@} nell'indirizzo email. Un utente può possiedere più mail, tutte identificate dalla stringa che precede \texttt{@}.
     \item \textbf{Basata su un metodo misto:} considera sia gli username che le email. Due email sono considerate connesse tra loro se hanno almeno una password in comune e se le mail connesse tra loro sono associate allo stesso username.
 \end{itemize}
 Per potere effettuare migliori test sul dataset sono stati rimossi gli utenti che avevano meno di due password associate alla stesso account.
 
 Il dataset successivamente viene diviso in due parti: training set e test set (in rapporto 80\%-20\% ). Nel paper la fase di training utilizza soltanto il dataset relativo all'euristica basata sulle email, mentre per la fase di testing si utilizza sia l'euristica basata sulle email sia quella mista.
 
-\subsubsection{Introduzione a Pass2path}
+\subsection{Introduzione a Pass2path}
 
 Pass2path è un modello di rete neurale che consente di creare password in grado di compromettere più del 48\% degli utenti in meno di mille tentativi. Il successo di questo modello è dovuto al riutilizzo della stessa password o di varianti di password da parte dell'utente.
-Per svilupparlo si è tenuto conto della sequenza di trasformazioni $\tau_1...\tau_n $, nota come \emph{percorso} che consente, a partire dalla password  $\tilde{w}$, di produrre la nuova password $w$. 
+Per svilupparlo si è tenuto conto della sequenza di trasformazioni $\tau_1...\tau_n $, nota come \emph{percorso} che consente, a partire dalla password  $\tilde{w}$, di produrre la nuova password $w$.
 
 
 Le modifiche sono rappresentate da una unità di misura $\tau\in \mathcal{T}$, che specifica in che posizione e quale tipo di variazione applicare in una password.
@@ -98,7 +98,7 @@ Ad esempio, il percorso da \texttt{cats} a \texttt{kates} (distanza di modifica 
     $path = \{(sub , k^\prime , 0), (ins , e^\prime , 3)\}$
 \end{center}
 
-\subsubsection{Come allenare pass2path}
+\subsection{Come allenare pass2path}
 Prima di allenare pass2path è necessario tradurre ciascuna password come sequenza di tasti premuti su una \emph{tastiera americana ANSI}. La codifica dei tasti premuti è la seguente:
 \begin{itemize}
     \item Per rappresentare una sola lettera maiuscola all'interno di una parola si pone \texttt{<s>} (che rappresenta la pressione del tasto \texttt{SHIFT}) prima della lettera, che viene lasciata minuscola. Ad esempio \texttt{Ciao} viene tradotto come \texttt{<s>ciao}.
@@ -126,7 +126,7 @@ Si è deciso di filtrare le password in base alla lunghezza del percorso, che de
 Per allenare pass2path si utilizza il dataset di training basato sulle email.
 Si utilizzano due reti neurali ricorrenti (RNN) per costruire un auto-encoder~\cite{Sherstinsky_2020}.
 
-\subsubsection{Efficacia d'attacco con configurazioni non ripetute}
+\subsection{Efficacia d'attacco con configurazioni non ripetute}
 Per verificare l'efficacia di attacco della rete si utilizza il dataset di test delle email, con password da indovinare $w$ diverse dalla originale $\tilde{w}$.
 Con configurazioni non ripetute, Pass2path riesce in meno di 100 stime a ricavare
 il 13\% delle password, impiegando 4 ore in tutto (Intel i9 e 128 GB di RAM, su un singolo thread).
@@ -137,7 +137,7 @@ il 13\% delle password, impiegando 4 ore in tutto (Intel i9 e 128 GB di RAM, su 
     \caption{Pass2path riesce a indovinare in meno di mille tentativi una percentuale più alta di password, rispetto ad attacchi non mirati. Questi ultimi risultano efficaci soltanto se sono richiesti più di 1000 tentativi~\cite{biijeta}}
 \end{figure}
 
-\subsubsection{Efficacia d'attacco con configurazioni ripetute}
+\subsection{Efficacia d'attacco con configurazioni ripetute}
 Per verificare l'efficacia di un attacco della rete, in caso di password da indovinare $w$ simile alla originale $\tilde{w}$, si utilizza il test set del dataset misto, in cui si è osservato che il 40\% delle password vengono riutilizzate dagli utenti, rendendoli facili bersagli.
 
 Come primo attacco viene utilizzata la password $\tilde{w}$, in modo da verificare il suo riutilizzo senza varianti, mentre i restanti $q - 1$ vengono svolti in accordo alla tecnica di attacco scelta. Confrontando con altri modelli utilizzati, il migliore risultato è stato ottenuto da pass2path, compromettendo metà degli utenti (48.3\%) in al massimo mille tentativi.
@@ -148,13 +148,13 @@ Inoltre è importante sottolineare che gli attacchi di tipo non mirato (untarget
 I ricercatori hanno anche eseguito un vero e proprio attacco all'interno della loro università (Cornell University), in modo da potere testare su password diverse da quelle del dataset, ovvero appartenenti a studenti e professori. Il migliore risultato è stato ottenuto da pass2path, che in meno di 1000 tentativi è riuscito a scoprire la password del 8,4\% degli account.
 
 
-\subsection{Difesa}
-\subsubsection{Difesa da attacchi a dizionario mirati}
-Diversi studi mostrano che cambiare password non protegge completamente un utente dagli attacchi. 
+\section{Difesa}
+\subsection{Difesa da attacchi a dizionario mirati}
+Diversi studi mostrano che cambiare password non protegge completamente un utente dagli attacchi.
 Nel paper viene illustrato il concetto di PPSM (Personalized password strength meters), che sfruttano modelli preallenati di word embedding per dimostrare la sicurezza di una password.
-In questo modo si possono prevenire attacchi che sfruttano varianti di password presenti in data breach. 
+In questo modo si possono prevenire attacchi che sfruttano varianti di password presenti in data breach.
 
-\subsubsection{Personalized password strength meters}
+\subsection{Personalized password strength meters}
 Un PPSM può essere utilizzato con lo scopo di dare un giudizio in tempo reale all'utente sulla sicurezza delle password durante la selezione.
 Il funzionamento è il seguente:
 \begin{itemize}
@@ -166,15 +166,15 @@ Il funzionamento è il seguente:
     \end{itemize}
 \end{itemize}
 
-Un possibile modo di ottenere il guess rank è basarsi su pass2path, in modo da evitare che un utente usi una password simile a quella trovata in un data breach; tuttavia prevedere password risulta costoso (dato che si considera un modello di generazione di password come pass2path) e, nel caso in cui si vogliano inviare i risultati via rete, viene occupata molta banda. 
+Un possibile modo di ottenere il guess rank è basarsi su pass2path, in modo da evitare che un utente usi una password simile a quella trovata in un data breach; tuttavia prevedere password risulta costoso (dato che si considera un modello di generazione di password come pass2path) e, nel caso in cui si vogliano inviare i risultati via rete, viene occupata molta banda.
 
 Si è osservato che risulta più efficiente e meno costoso assegnare punteggi che rappresentano la sicurezza di una password rispetto ai guess rank.
 
-\subsubsection{Realizzazione di un PPSM}
+\subsection{Realizzazione di un PPSM}
 Sotto al PPSM si trova un classificatore binario $C$ che prende in input due password candidata $w$ e una password nota da un leak $\tilde{w}$ e restituisce 0 se $w$ è indovinabile in meno di 1000 tentativi a partire da $\tilde{w}$, 1 altrimenti.
 Per costruire tale classificatore è necessario utilizzare tecniche di word-embedding.
 
-\subsubsection{Similarità tra password via word embedding}
+\subsection{Similarità tra password via word embedding}
 
 Si definisce word embedding la tecnica di mappatura di un insieme di parole in uno spazio vettoriale d-dimensionale (solitamente con d che vale 100 o 200 o 300).
 
@@ -184,30 +184,30 @@ In particolare, nel problema in esame, la tecnica di word embedding viene applic
 
 A tal scopo, per costruire un password embedding model, viene utilizzato FastText, che impara la similarità dividendo la parola in una collezione di contesti, definiti come piccole sequenze di parole note come \emph{n-gram}. Le parole che appaiono spesso insieme nello stesso contesto vengono definite simili.
 
-\subsubsection{Allenamento di Fasttext}
+\subsection{Allenamento di Fasttext}
 Per l'allenamento del modello di FastText vengono considerati i seguenti parametri:
 
 \begin{itemize}
-    \item \textbf{Dimensione del vettore}: impostata a 100, poiché l'allenamento del modello così risulta più rapido rispetto al parametro di default a 300. 
+    \item \textbf{Dimensione del vettore}: impostata a 100, poiché l'allenamento del modello così risulta più rapido rispetto al parametro di default a 300.
     \item \textbf{Subsampling}: ignora le password che ricorrono più frequentemente. Impostato a $10^{-3}$, poiché non si vogliono password con più di 1000 occorrenze.
     \item \textbf{Dimensione minima degli ngram}: impostata a 1, in modo che possano costruiti embedding per password mai viste durante l'allenamento.
     \item \textbf{Dimensione massima degli ngram}: impostata a 4, dato che le parole presenti nel dataset hanno come minimo 4 caratteri.
 \end{itemize}
-\subsubsection{Classificazione delle password}
-Per classificare le password viene utilizzato un classificatore binario che restituisce 0 se le password sono simili tra loro, superando una soglia $\alpha$ di similarità decisa prima della misurazione, 1 altrimenti. 
+\subsection{Classificazione delle password}
+Per classificare le password viene utilizzato un classificatore binario che restituisce 0 se le password sono simili tra loro, superando una soglia $\alpha$ di similarità decisa prima della misurazione, 1 altrimenti.
 
 Una password risulta vulnerabile se, data una password $w$, essa viene indovinata in meno di 1000 tentativi a partire dalla password $\tilde{w}$, utilizzando come euristica Pass2Path.
-Per determinare la soglia $\alpha$, vengono considerati $10^5$ utenti dal dataset di test delle email e per ciascun utente vengono sorteggiate due password dalla collezione di password associati a essi. Una delle due password (la scelta della password è arbitraria) viene considerata come la nuova password da indovinare $w$, mentre l'altra password $\tilde{w}$ rappresenta la password trovata in un leak. 
+Per determinare la soglia $\alpha$, vengono considerati $10^5$ utenti dal dataset di test delle email e per ciascun utente vengono sorteggiate due password dalla collezione di password associati a essi. Una delle due password (la scelta della password è arbitraria) viene considerata come la nuova password da indovinare $w$, mentre l'altra password $\tilde{w}$ rappresenta la password trovata in un leak.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=7cm]{./immagini/precisionrecall.png}
-    \label{precision recall}
     \caption{\href{https://upload.wikimedia.org/wikipedia/commons/2/26/Precisionrecall.svg}{Definizione grafica di precision e recall}}
+    \label{precision recall}
 \end{figure}
 \FloatBarrier
 Vengono definiti due parametri per la scelta di $\alpha$:
 \begin{itemize}
-    \item \textbf{Precision}: rappresenta quanti veri positivi sono stati rilevati su un totale composto da veri positivi e falsi positivi.    
+    \item \textbf{Precision}: rappresenta quanti veri positivi sono stati rilevati su un totale composto da veri positivi e falsi positivi.
     \item \textbf{Recall}: rappresenta il numero effettivo di elementi positivi che sono stati rilevati su un totale di falsi negativi e veri positivi.
 \end{itemize}
 In particolare, nel caso in esame:
@@ -224,18 +224,18 @@ Nel paper di riferimento di Biijeta et alii~\cite{biijeta} viene considerato un 
     \centering
     \includegraphics[width=11cm]{./immagini/precision_recall_paper_Biijeta.png}
     \label{precisionbiijeta}
-    \caption{Precision e recall di Biijeta et alli~\cite{biijeta}}
+    \caption{Precision e recall di Biijeta et al.~\cite{biijeta}}
 \end{figure}
-\subsubsection{Modelli compressi di word embedding}
+\subsection{Modelli compressi di word embedding}
 Il modello prodotto da Biijeta et alii~\cite{biijeta} è stato successivamente compresso, in modo da ridurre la dimensione da 1.5 GB a 3 MB, senza che la qualità delle performance venisse ridotta, mediante tecniche di quantizzazione.
 Per la produzione del modello compresso si è tenuto conto del parametro $\eta$ che determina il rapporto di compressione. Per la valutazione della compressione, sono stati prodotti più modelli in base a differenti valori $\eta$; infine è stato scelto il modello con $\eta=5$ e dimensione complessiva di 3 MB, poiché il valore di recall non ha subito notevoli variazioni.
 \begin{figure}[h]
     \centering
     \includegraphics[width=9cm]{./immagini/compressed_model.png}
     \label{compressed_model}
-    \caption{Precision e recall in base al rapporto di compressione $\eta$ del modello di Biijeta et alli~\cite{biijeta}}
+    \caption{Precision e recall in base al rapporto di compressione $\eta$ del modello di Biijeta et alii~\cite{biijeta}}
 \end{figure}
-\subsection{Modifiche e analisi del progetto}
+\section{Modifiche e analisi del progetto}
 
 Per questo progetto sono state effettuate diverse scelte:
 

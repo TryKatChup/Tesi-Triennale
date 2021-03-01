@@ -2,9 +2,9 @@
 
 \label{ch:state of the art}
 
-La sicurezza delle password al giorno d'oggi riveste un ruolo significativo nel garantire confidenzialità e integrità dei dati personali degli utenti e delle aziende. 
+La sicurezza delle password al giorno d'oggi riveste un ruolo significativo nel garantire confidenzialità e integrità dei dati personali degli utenti e delle aziende.
 Solitamente si è più propensi a scegliere password semplici da ricordare, come riferimenti autobiografici, oppure sequenze di caratteri molto comuni (e.g. \texttt{qwerty}, \texttt{123456}).
-Per semplificare la memorizzazione, si utilizzano spesso passsword brevi, in media da 9-10 caratteri e composte in gran parte da caratteri minuscoli~\cite{obspasshab}.
+Per semplificare la memorizzazione, si utilizzano spesso password brevi, in media da 9-10 caratteri e composte in gran parte da caratteri minuscoli~\cite{obspasshab}.
 
 Tuttavia questa scelta porta a maggiori probabilità di subire violazioni dei propri account, poiché password semplici sono vulnerabili ad attacchi di forza bruta. Inoltre, tramite tecniche di ingegneria sociale, è possibile individuare il criterio di scelta dell'utente, eventualmente ragionando sui dati disponibili grazie ai data breach.
 
@@ -13,7 +13,7 @@ Il 42\% è causato da attacchi su applicazioni web e il il metodo più comune di
 Il 58\% dei breach conteneva dati personali~\cite{verizon}.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=15cm]{./immagini/average_cost_and_frequency_data_breaches.png}
+    \includegraphics[width=15cm]{./immagini/prova.png}
     \label{data breach}
     \caption{Costo medio e frequenza di data breach causati da attacchi informatici, in base alla causa, nel 2020~\cite{ibmcost}}
 \end{figure}
@@ -35,14 +35,14 @@ Un modo per verificare la sicurezza della password è utilizzare strumenti come 
     \item ripetizioni di lettere (\texttt{aaaa});
     \item sequenze alfabetiche (\texttt{abcde});
     \item sequenze di tastiera (\texttt{qwertyuiop});
-    \item il codice \texttt{l33t}.    
+    \item il codice \texttt{l33t}.
 \end{itemize}
 
 Altri strumenti, come \href{https://password.kaspersky.com/it/}{Kapersky password checker}, controllano anche dati di numerosi data breach raccolti da \href{https://haveibeenpwned.com/}{Have I been Pwned?}.
 Questi approcci, tuttavia, non controllano la cronologia delle password di uno specifico utente, ma soltanto la resistenza ad attacchi di forza bruta.
 
 Per questo motivo sono state studiate strategie che tengono conto delle credenziali utilizzate.
-Alcune sfruttano un approccio probabilistico, come i \emph{Bloom Filter}, che...*TODO*. Un'altra possibile modalità utilizza \emph{Word Embedding} di password.
+Alcune sfruttano un approccio probabilistico, come i \emph{Bloom Filter}~\cite{bloom}, che...*TODO*. Un'altra possibile modalità utilizza \emph{Word Embedding} di password.
 
 \section{Bloom filters}
 
@@ -105,7 +105,7 @@ Anziché allenare un modello fornendo ogni singola parola di un dataset, FastTex
 
 Si definiscono n-gram di una parola costituita da $c_1...c_m$ caratteri la seguente sequenza:
 \begin{center}
-$\{ c_{i_1}, c_{i_2}, \ldots, c_{i_n} \mid \sum\limits_{j=1}^n i_{j} - i_{j-1} < 0 \}$    
+$\{ c_{i_1}, c_{i_2}, \ldots, c_{i_n} \mid \sum\limits_{j=1}^n i_{j} - i_{j-1} < 0 \}$
 \end{center}
 Ad esempio, gli n-gram della parola ciao, con $n\_mingram = 1$ e $n\_maxgram = 4$, sono i seguenti:
 %Si considerino gli n-gram della parola $ciao$:

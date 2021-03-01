@@ -1,4 +1,33 @@
 \chapter*{Conclusioni}
 \chaptermark{Conclusioni}
 \addcontentsline{toc}{chapter}{Conclusioni}
-Conclusione.
+In questo progetto di tesi ci si è soffermati sul problema dell'utilizzo di varianti di password precedenti e di possibili approcci di prevenzione. Per potere comprendere quali siano le varianti ci si è soffermati non solo sulla forma delle password, ma anche sulla sfera semantica che ricoprono, grazie a tecniche di word embedding, che consentono la traduzione di parole in vettori di numeri reali. A tal scopo è stato utilizzato \texttt{gensim.FastText} come modello di word embedding per potere fornire un punteggio di similarità tra due password, il cui apprendimento è influenzato dall'insieme di \texttt{n-gram} di una parola.
+
+Prima dell'allenamento di FastText, è stato filtrato un dataset da 43 GB, escludendo gli utenti con meno di due password; successivamente si è diviso il dataset in training set e test set e si è deciso di allenare 5 modelli e di confrontarli tra loro, in base ai seguenti fattori:
+\begin{itemize}
+    \item Conversione mediante libreria \texttt{word2keypress} delle password in sequenza di tasti premuti per ottenere caratteri maiuscoli e caratteri speciali.
+    \item Numero minimo di n-gram, ovvero la lunghezza minima della sequenza di caratteri che compone in parte la password.
+    \item Numero di epoche con cui è stato allenato il modello.
+\end{itemize}
+Dopodiché, grazie al metodo di \texttt{product quantization}, è stato compresso il modello, in modo da ridurre la dimensione da 4.8 GB a 20 MB, senza subire perdita di qualità. In seguito, è stata scelta un'euristica che, per la valutazione della similarità di due password, effettuasse i seguenti controlli:
+\begin{itemize}
+    \item verifica della password con la variante maiuscola;
+    \item verifica della password con la variante minuscola;
+    \item verifica della password con la traduzione in codice \texttt{l33t};
+    \item verifica se l'edit distance della password superasse 5.
+\end{itemize}
+Infine è stato ricavato il grafico di precision e recall, utile per potere fornire una valutazione dei modelli e della loro affidabilità, ed è stato scoperto che il modello implementato dal paper di riferimento di Bijeeta et alii~\cite{biijeta} che utilizza l'euristica precedentemente citata risulta il peggiore in termini di performance. Ciò era dovuto alla traduzione da parte di \texttt{word2keypress} di caratteri in sequenze composte da \texttt{<c> <s>}, comuni a più password che utilizzavano una alternanza di maiuscole e caratteri speciali.
+
+Un altro problema del modello precedentemente citato era determinato dal numero minimo di n-gram, pari a 1, che risultava troppo dispersivo per potere consentire un apprendimento efficace da parte del modello dei caratteri che componevano una password.
+
+Per risolvere, si è deciso di allenare un modello, che non tenesse conto della sequenza di tasti premuti e che, in fase di apprendimento, dalla durata di 5 epoche, considerasse un numero minimo di n-gram pari a 2.
+
+Quest'ultimo è risultato il migliore tra tutti i modelli allenati.
+
+\section{Sviluppi futuri}
+Sono possibili diversi utilizzi del modello ottenuto in questo progetto:
+\begin{itemize}
+    \item In un ambiente distribuito dedicato al cambio di password, dove l'utente possa fornire la vecchia password e la nuova. Il modello compresso può determinare se la nuova password possa essere considerata abbastanza sicura rispetto a quella vecchia, e può essere inviato come payload JavaScript, mentre il controllo di sicurezza può essere effettuato lato client, assicurandosi che la nuova candidata password non venga inoltrata a un server remoto, prima di diventare definitiva.
+    Un vantaggio nell'utilizzare i modelli compressi risulta nel garantire l'anonimizzazione delle password, poiché esse vengono rappresentate come word embedding, e non sono reversibili, pertanto in fase di intercettazione non comportano alcun rischio. Successivamente il server può effettuare un controllo sul database per vedere se la password risulta sicura rispetto alla versione precedente. Questo comporta non dovere salvare in un database le password in chiaro e non dovere ricorrere ad algoritmi di crittografia, grazie alle proprietà dei word embedding.
+    \item Confronto con il modello che sfrutta i bloom filter, per poi stabilire quale approccio sia il migliore.
+\end{itemize}
