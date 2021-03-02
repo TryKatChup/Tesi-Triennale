@@ -19,6 +19,7 @@ Si è deciso di allenare 5 diversi modelli:
 \end{itemize}
 
 \section{Precondizioni}
+\label{sec:precondizioni}
 Prima della fase di allenamento della rete, è necessario avere un dataset valido di password; nel progetto è stato utilizzato lo stesso data breach da 45 GB citato da Bijeeta et alii~\cite{biijeta}, tuttavia sono stati scelti criteri diversi di filtraggio:
 \begin{itemize}
     \item Sono state rimossi gli account con password con lunghezza inferiore a 4 caratteri o maggiore di 30.
@@ -36,19 +37,22 @@ Prima della fase di allenamento della rete, è necessario avere un dataset valid
     \end{itemize}
     \item Sono stati rimossi gli account che presentavano meno di 2 password, poiché più password per utente risultano indispensabili per ricavare la similarità.
 \end{itemize}
-Successivamente, in accordo con Bijeeta et alii~\cite{biijeta}, per i modelli che prevedevano la memorizzazione delle sequenze di tasti premuti, è stata utilizzata la libreria python \href{https://github.com/rchatterjee/word2keypress}{\texttt{word2keypress}}.
+Successivamente, in accordo con Bijeeta et alii~\cite{biijeta}, per i modelli che prevedevano la memorizzazione delle sequenze di tasti premuti, è stata utilizzata la libreria python \texttt{word2keypress}\footnote{\url{https://github.com/rchatterjee/word2keypress}}.
 Successivamente i risultati sono stati salvati in un file \texttt{csv} nel seguente formato:
 \begin{center}
     \texttt{sample@gmail.com: ["'97314348'", "'voyager<s>1'"]}
 \end{center}
 
 \section{Impostazioni dell'ambiente}
+\label{sec:impostazioni ambiente}
 Per potere allenare il modello è stato utilizzato \texttt{gensim.FastText}~\cite{gensim}.
 \\
 \texttt{gensim} è una libreria python multipiattaforma e open source che racchiude un'ampia scelta di modelli di word embedding pre allenati~\cite{gensim}.
 Per estrapolare i dati dal file \texttt{csv} è stata sviluppata una classe ausiliaria \texttt{PasswordRetriever}.
 \section{Allenamento del modello}
+\label{sec:allenamento modello}
 \subsection{Parametri di FastText}
+\label{sec:parametri di fasttext}
 \begin{minted}[
     frame=lines,
     framesep=2mm,
@@ -76,6 +80,7 @@ Per questo progetto è stato utilizzato il modello \emph{Skip-gram} (\texttt{sg 
 \end{itemize}
 
 \subsection{Allenare FastText}
+\label{sec:allenare fasttext}
 La lista di password relativa a ciascun utente (\texttt{password\_list}) viene ottenuta grazie alla classe ausiliaria \texttt{PasswordRetriever}. Il modello di FastText si basa su \texttt{password\_list} e viene allenato con i parametri elencati precedentemente.
 
 \begin{minted}[
@@ -95,6 +100,7 @@ trained_model = FastText(password_list, size=SIZE, min_count=min_count,
 \end{minted}
 
 \section{Compressione del modello}
+\label{sec:post-allenamento compressione modello}
 Il modello allenato ha un peso complessivo pari a 4.8 GB, e ciò comporta i seguenti problemi:
 \begin{itemize}
     \item Meno efficiente in termini di spazio, di conseguenza l'utilizzo del modello è limitato su sistemi con vincoli di memoria o di spazio.

@@ -1,6 +1,7 @@
 \chapter{Risultati}
-
+\label{ch:risultati}
 \section{Differenze tra modello normale e compresso}
+\label{sec:differenze modello normale e compresso}
 Dati i problemi che comportavano l'utilizzo dei modelli da 4.8 GB, si è scelto di utilizzare per l'analisi dei risultati le versioni compresse da appena 20 MB ottenute tramite product quantization.
 Per misurare la differenza di prestazioni tra il modello originale e la sua versione compressa si è considerato come riferimento il modello di Biijeta et alii, avente le seguenti caratteristiche:
 \begin{itemize}
@@ -26,7 +27,9 @@ Non sono state osservate differenze significative riguardanti i valori, motivo p
 \end{figure}
 
 \section{Classificazione del modello}
+\label{sec:classificazione modello}
 \subsection{Euristiche adottate}
+\label{sec:risultati euristiche adottate}
 Per valutare i modelli, a differenza di Bijeeta et alii~\cite{biijeta}, non si è utilizzato Pass2Path a causa della complessa implementazione. Si è invece adottata la seguente euristica:
 \begin{itemize}
     \item verifica della password con la variante minuscola;
@@ -36,6 +39,7 @@ Per valutare i modelli, a differenza di Bijeeta et alii~\cite{biijeta}, non si �
 \end{itemize}
 
 \subsection{Ground truth e prediction}
+\label{sec:ground truth e prediction}
 Per \emph{ground truth} si intende il risultato ideale che ci si aspetta e viene utilizzato per verificare una correttezza delle previsioni del modello.~\cite{lemoigne2008molecular}
 
 Il termine \emph{prediction} si riferisce all'output di un modello dopo che è stato allenato su un dataset e applicato a nuovi dati quando si vuole prevedere la probabilità di un certo evento.~\cite{prediction}.
@@ -57,6 +61,7 @@ recall = \frac{TP}{TP + FN}
 \end{gather*}
 
 \section{Similarità: un confronto}
+\label{sec:similarita, confronto tra modelli}
 In base a quanto spiegato in (inserisci il capitolo qui) si sono ottenuti i seguenti grafici:
 \begin{figure}[H]
     \centering
@@ -93,6 +98,7 @@ In base a quanto spiegato in (inserisci il capitolo qui) si sono ottenuti i segu
 \end{figure}
 
 \section{Risultati ottenuti}
+\label{sec:risultati ottenuti}
 Come accennato in 2.4.6, per classificare le password è necessario definire una soglia $\alpha$ di similarità, in modo da definire due password simili tra loro se la loro similarità supera $\alpha$, diverse tra loro altrimenti.
 Analizzando i modelli ottenuti, si possono osservare i seguenti risultati:
 \begin{itemize}
@@ -134,6 +140,7 @@ alii~\cite{biijeta}, figura \ref{primomodello}), e lo si può osservare dai valo
 Il modello con le migliori performance è invece riportato in figura \ref{quintomodello}, senza \texttt{word2keypress}, \texttt{n\_mingram = 2}, \texttt{epoche = 5}, con valore di precision pari a 77\%, per $\alpha = 0.6$, superiore di $\simeq 10\%$ rispetto al modello di Bijeeta et alii~\cite{biijeta}.
 
 \subsection{Criticità del modello proposto da Bijeeta et alii}
+\label{sec:criticita bijeeta}
 I motivi per cui il modello di Bijeeta et alii~\cite{biijeta} è risultato il peggiore sono i seguenti:
 \begin{itemize}
     \item La libreria \texttt{word2keypress} traduce ciascun carattere come sequenza di tasti premuti, come accennato nel paragrafo 2.3.3. Di conseguenza, quando si hanno due password che presentano un'alternanza di caratteri minuscoli e maiuscoli, esse risulteranno molto simili tra loro, a causa della ripetizione delle sequenze \texttt{<s> <c>}.
@@ -147,6 +154,7 @@ I motivi per cui il modello di Bijeeta et alii~\cite{biijeta} è risultato il pe
 \end{itemize}
 
 \subsection{Soglia di similarità per la valutazione di due password}
+\label{sec:soglia similarita valutazione due password}
 Per potere determinare se due password siano simili tra loro occorre definire la soglia di similarità $\alpha$, tenendo in considerazione i valori di precision e recall ottimali.
 
 Nel caso in studio, è necessario avere un valore di recall più alto rispetto al valore di precision, dato che è importante rilevare più password simili tra loro possibili. Questo tuttavia, per valori di precision molti bassi (come accennato nel paragrafo   ) può comportare un'alta percentuale di alti positivi, ovvero di coppie di password considerate come simili, anche se abbastanza diverse tra loro.
@@ -155,6 +163,7 @@ Un buon compromesso è stato raggiunto con $\alpha = 0.6$ (rappresentato dalle a
 
 Nel paper di Bijeeta et alii \cite{biijeta} è stato scelto $\alpha = 0.5$, tuttavia, come si può vedere in figura \ref{precision recall}, ciò comportava un valore di precision basso, con una variazione di recall pari a $\simeq 5\%$ e di precision pari a $\simeq 10\%$ rispetto ai valori registrati con $\alpha = 0.6$.
 \section{Rappresentazione grafica della distanza tra parole}
+\label{sec:rappresentazione grafica distanza tra parole}
 In questo progetto è stato scelto, per facilitare la comprensione, di rappresentare le similarità tra password mediante un grafico a 3 dimensioni. A questo scopo è stato utilizzato un algoritmo noto come t-SNE per ridurre la dimensione del modello da 200 a 3.
 Date due password come \texttt{ipwnedyou} e \texttt{numBerOne} si possono vedere per ciascuna di esse le 5 password più simili proposte dal modello e la distanza in termini di similarità rispetto alla password originaria.
 \begin{figure}[H]
@@ -163,4 +172,3 @@ Date due password come \texttt{ipwnedyou} e \texttt{numBerOne} si possono vedere
     \caption{Grafico 3D per mostrare la similarità tra password}
     \label{3d}
 \end{figure}
-\label{ch:risultati}
