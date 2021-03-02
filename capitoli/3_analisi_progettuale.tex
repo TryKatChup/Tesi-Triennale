@@ -1,8 +1,8 @@
 \chapter{Analisi progettuale}
 \label{ch:analisi progettuale}
 
-In questo progetto si cerca di sviluppare un sistema per verificare in modo robusto la similarità tra password di un utente. In questo modo è possibile evitare di utilizzare varianti di password precedenti, e garantire maggiore sicurezza di uno o più account.
-A tal proposito sono stati condotti esperimenti che, per controllare la similarità tra password, utilizzavano word embedding di parole. In questo lavoro di tesi è stato preso come riferimento il paper di Biijeta  et alii~\cite{biijeta}.
+In questo progetto si cerca di sviluppare un sistema per verificare in modo robusto la similarità tra password di un utente, in modo da evitare di utilizzare varianti di password precedenti, e garantire maggiore sicurezza di uno o più account.
+A tal proposito sono stati condotti esperimenti che, per controllare la similarità tra password, utilizzavano word embedding di parole. In questo lavoro di tesi è stato preso come riferimento il paper di Bijeeta  et alii~\cite{bijeeta}.
 
 \section{Modelli di similarità tra password basati sulle reti neurali}
 \label{sec:modelli di similarita tra password basati sulle reti neurali}
@@ -12,7 +12,7 @@ Ciò può costituire un problema sia se si effettua un attacco contro un utente,
     \item Durante un attacco, si considerano determinate password note grazie a leak, tuttavia non è presente un approccio flessibile che elabori varianti di password di un determinato utente.
     \item Non è presente un meccanismo che avverta l'utente del potenziale pericolo causato dal riutilizzo di password.
 \end{itemize}
-Per questo motivo, nel paper riferimento di Biijeta et alii~\cite{biijeta} sono stati utilizzate due tipologie di reti neurali:
+Per questo motivo, nel paper riferimento di Bijeeta et alii~\cite{bijeeta} sono stati utilizzate due tipologie di reti neurali:
 \begin{itemize}
     \item Per l'attacco è stato sviluppato un modello di rete neurale ricorrente, noto come pass2path.
     \item Per la difesa sono stati utilizzate tecniche di Natural Language Processing, in particolare modelli di word embedding, i quali generano una corrispondenza tra parole e vettori, mantenendo proprietà semantiche della password originale, come la similarità.
@@ -38,9 +38,9 @@ Dal risultato del processo di filtraggio sono state osservati i seguenti punti:
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=11cm]{./immagini/pulizia_dataset_biijeta.png}
+    \includegraphics[width=11cm]{./immagini/pulizia_dataset_bijeeta.png}
     \label{pulizia dataset}
-    \caption{La distribuzione della lunghezza delle password e della loro composizione dopo la pulizia del dataset~\cite{biijeta}}
+    \caption{La distribuzione della lunghezza delle password e della loro composizione dopo la pulizia del dataset~\cite{bijeeta}}
 \end{figure}
 
 
@@ -139,7 +139,7 @@ il 13\% delle password, impiegando 4 ore in tutto (Intel i9 e 128 GB di RAM, su 
     \centering
     \includegraphics[width=10cm]{./immagini/pass2path.png}
     \label{pass2path}
-    \caption{Pass2path riesce a indovinare in meno di mille tentativi una percentuale più alta di password, rispetto ad attacchi non mirati. Questi ultimi risultano efficaci soltanto se sono richiesti più di 1000 tentativi~\cite{biijeta}}
+    \caption{Pass2path riesce a indovinare in meno di mille tentativi una percentuale più alta di password, rispetto ad attacchi non mirati. Questi ultimi risultano efficaci soltanto se sono richiesti più di 1000 tentativi~\cite{bijeeta}}
 \end{figure}
 
 \subsection{Efficacia d'attacco con configurazioni ripetute}
@@ -151,14 +151,14 @@ Si è osservato che con password riutilizzate, aumentano le probabilità di indo
 Inoltre è importante sottolineare che gli attacchi di tipo non mirato (untargeted) ottengono migliori performance se vengono eseguiti più di 1000 tentativi; al contrario pass2path è il migliore approccio nel caso in cui si proceda con un numero minore.
 
 
-I ricercatori hanno anche eseguito un vero e proprio attacco all'interno della loro università (Cornell University), in modo da potere testare su password diverse da quelle del dataset, ovvero appartenenti a studenti e professori. Il migliore risultato è stato ottenuto da pass2path, che in meno di 1000 tentativi è riuscito a scoprire la password del 8,4\% degli account.
+I ricercatori hanno anche eseguito un vero e proprio attacco all'interno della loro università (Cornell University), in modo da potere testare su password diverse da quelle del dataset, ovvero appartenenti a studenti e professori. Il migliore risultato è stato ottenuto da pass2path, che in meno di 1000 tentativi è riuscito a scoprire la password del 8,4\% degli account~\cite{bijeeta}.
 
 
 \section{Difesa}
 \label{sec:difesa}
 \subsection{Difesa da attacchi a dizionario mirati}
 \label{sec:difesa attacchi mirati}
-Diversi studi mostrano che cambiare password non protegge completamente un utente dagli attacchi.
+Diversi studi mostrano che cambiare password non protegge completamente un utente dagli attacchi~\cite{google}~\cite{hypr}.
 Nel paper viene illustrato il concetto di PPSM (Personalized password strength meters), che sfruttano modelli preallenati di word embedding per dimostrare la sicurezza di una password.
 In questo modo si possono prevenire attacchi che sfruttano varianti di password presenti in data breach.
 
@@ -170,18 +170,18 @@ Il funzionamento è il seguente:
     \item vengono considerati in input una potenziale password e un set di password associate all'utente trovate in un data leak;
     \item vengono utilizzati due possibili criteri come output:
     \begin{itemize}
-        \item \textbf{guess rank}, ovvero il numero di tentativi di una tipologia di attacco fatti prima di indovinare la password.
+        \item \textbf{guess rank}, ovvero il numero di tentativi di una tipologia di attacco fatti prima di indovinare la password;
         \item \textbf{percentuale di similarità}, ovvero la somiglianza tra la potenziale password e la password associata all'utente.
     \end{itemize}
 \end{itemize}
 
 Un possibile modo di ottenere il guess rank è basarsi su pass2path, in modo da evitare che un utente usi una password simile a quella trovata in un data breach; tuttavia prevedere password risulta costoso (dato che si considera un modello di generazione di password come pass2path) e, nel caso in cui si vogliano inviare i risultati via rete, viene occupata molta banda.
 
-Si è osservato che risulta più efficiente e meno costoso assegnare punteggi che rappresentano la sicurezza di una password rispetto ai guess rank.
+Si è osservato che risulta più efficiente e meno costoso assegnare punteggi che rappresentano la sicurezza di una password rispetto ai guess rank~\cite{bijeeta}.
 
 \subsection{Realizzazione di un PPSM}
 \label{sec:realizzazione ppsm}
-Sotto al PPSM si trova un classificatore binario $C$ che prende in input due password candidata $w$ e una password nota da un leak $\tilde{w}$ e restituisce 0 se $w$ è indovinabile in meno di 1000 tentativi a partire da $\tilde{w}$, 1 altrimenti.
+Sotto al PPSM si trova un classificatore binario $C$ che prende in input una password candidata $w$ e una password nota da un leak $\tilde{w}$ e restituisce 0 se $w$ è indovinabile in meno di 1000 tentativi a partire da $\tilde{w}$, 1 altrimenti.
 Per costruire tale classificatore è necessario utilizzare tecniche di word-embedding.
 
 \subsection{Similarità tra password via word embedding}
@@ -230,23 +230,23 @@ In particolare, nel caso in esame:
 \end{itemize}
 Un valore di precision basso implica una imprecisa distinzione tra password simili e password non simili; un valore di recall basso invece comporta avere molte password simili non rilevate come tali.
 
-Nel paper di riferimento di Biijeta et alii~\cite{biijeta} viene considerato un valore di recall molto alto (99\%) e una percentuale di precision nettamente più bassa (60\%). Per questo motivo $\alpha$ è stato posto a $0.5$.
+Nel paper di riferimento di Bijeeta et alii~\cite{bijeeta} viene considerato un valore di recall molto alto (99\%) e una percentuale di precision nettamente più bassa (60\%). Per questo motivo $\alpha$ è stato posto a $0.5$.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=11cm]{./immagini/precision_recall_paper_Biijeta.png}
-    \label{precisionbiijeta}
-    \caption{Precision e recall di Biijeta et al.~\cite{biijeta}}
+    \includegraphics[width=11cm]{./immagini/precision_recall_paper_bijeeta.png}
+    \label{precisionbijeeta}
+    \caption{Precision e recall di Bijeeta et al.~\cite{bijeeta}}
 \end{figure}
 \subsection{Modelli compressi di word embedding}
 \label{sec:modelli compressi word embedding}
-Il modello prodotto da Biijeta et alii~\cite{biijeta} è stato successivamente compresso, in modo da ridurre la dimensione da 1.5 GB a 3 MB, senza che la qualità delle performance venisse ridotta, mediante tecniche di quantizzazione.
+Il modello prodotto da Bijeeta et alii~\cite{bijeeta} è stato successivamente compresso, in modo da ridurre la dimensione da 1.5 GB a 3 MB, senza che la qualità delle performance venisse ridotta, mediante tecniche di quantizzazione.
 Per la produzione del modello compresso si è tenuto conto del parametro $\eta$ che determina il rapporto di compressione. Per la valutazione della compressione, sono stati prodotti più modelli in base a differenti valori $\eta$; infine è stato scelto il modello con $\eta=5$ e dimensione complessiva di 3 MB, poiché il valore di recall non ha subito notevoli variazioni.
 \begin{figure}[h]
     \centering
     \includegraphics[width=9cm]{./immagini/compressed_model.png}
     \label{compressed_model}
-    \caption{Precision e recall in base al rapporto di compressione $\eta$ del modello di Biijeta et alii~\cite{biijeta}}
+    \caption{Precision e recall in base al rapporto di compressione $\eta$ del modello di Bijeeta et alii~\cite{bijeeta}}
 \end{figure}
 \section{Modifiche e analisi del progetto}
 \label{sec:modifiche analisi del progetto}

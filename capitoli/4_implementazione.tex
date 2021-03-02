@@ -3,12 +3,12 @@
 
 Lo scopo del progetto è sviluppare un classificatore che, date due password, determini se sono simili tra loro (e quindi potenzialmente non sicure) o meno.
 
-A tal proposito sono stati implementati modelli di word embedding, i quali permettono di rappresentare parole in uno spazio vettoriale preservando proprietà semantiche quali la similarità e la co-occorrenza nel medesimo contesto.
-Come modello è stato scelto FastText, il quale sfrutta informazioni sugli n-gram della parola per determinarne l'embedding~\cite{biijeta}.
+A tal proposito sono stati implementati modelli di word embedding, i quali permettono di rappresentare parole in uno spazio vettoriale preservando proprietà semantiche quali la similarità e la co-occorrenza nel medesimo contesto (crf. paragrafo \ref{sec:word embedding}).
+Come modello è stato scelto FastText, il quale sfrutta informazioni sugli n-gram della parola per determinarne l'embedding~\cite{bijeeta}.
 
 Si è deciso di allenare 5 diversi modelli:
 \begin{itemize}
-    \item Il modello di Bijeeta et alii~\cite{biijeta} che utilizza la libreria \texttt{word2keypress} per ricavare la sequenza di tasti premuti per specifici caratteri, numero minimo di n-gram pari a 1, e numero di epoche per allenare la rete pari a 5.
+    \item Il modello di Bijeeta et alii~\cite{bijeeta} che utilizza la libreria \texttt{word2keypress} per ricavare la sequenza di tasti premuti per specifici caratteri, numero minimo di n-gram pari a 1, e numero di epoche per allenare la rete pari a 5.
     \item Un modello che utilizza \texttt{word2keypress}, con numero minimo di n-gram pari a 2, e numero di epoche per allenare la rete pari a 10.
     \item Tre modelli che non rilevano la sequenza di tasti premuti:
     \begin{itemize}
@@ -20,7 +20,7 @@ Si è deciso di allenare 5 diversi modelli:
 
 \section{Precondizioni}
 \label{sec:precondizioni}
-Prima della fase di allenamento della rete, è necessario avere un dataset valido di password; nel progetto è stato utilizzato lo stesso data breach da 45 GB citato da Bijeeta et alii~\cite{biijeta}, tuttavia sono stati scelti criteri diversi di filtraggio:
+Prima della fase di allenamento della rete, è necessario avere un dataset valido di password; nel progetto è stato utilizzato lo stesso data breach da 45 GB citato da Bijeeta et alii~\cite{bijeeta}, tuttavia sono stati scelti criteri diversi di filtraggio:
 \begin{itemize}
     \item Sono state rimossi gli account con password con lunghezza inferiore a 4 caratteri o maggiore di 30.
     \item Sono state rimosse gli account con password che presentavano caratteri non ASCII o non stampabili.
@@ -37,7 +37,7 @@ Prima della fase di allenamento della rete, è necessario avere un dataset valid
     \end{itemize}
     \item Sono stati rimossi gli account che presentavano meno di 2 password, poiché più password per utente risultano indispensabili per ricavare la similarità.
 \end{itemize}
-Successivamente, in accordo con Bijeeta et alii~\cite{biijeta}, per i modelli che prevedevano la memorizzazione delle sequenze di tasti premuti, è stata utilizzata la libreria python \texttt{word2keypress}\footnote{\url{https://github.com/rchatterjee/word2keypress}}.
+Successivamente, in accordo con Bijeeta et alii~\cite{bijeeta}, per i modelli che prevedevano la memorizzazione delle sequenze di tasti premuti, è stata utilizzata la libreria python \texttt{word2keypress}\footnote{\url{https://github.com/rchatterjee/word2keypress}}.
 Successivamente i risultati sono stati salvati in un file \texttt{csv} nel seguente formato:
 \begin{center}
     \texttt{sample@gmail.com: ["'97314348'", "'voyager<s>1'"]}
@@ -71,12 +71,12 @@ sg = 1
 \end{minted}
 Per questo progetto è stato utilizzato il modello \emph{Skip-gram} (\texttt{sg = 1}) e il negative sampling~\cite{negative}:
 \begin{itemize}
-    \item Il modello Skip-gram (parametro \texttt{sg = 1}) è stato scelto in quanto la rappresentazione distribuita dell'input è stata utilizzata per prevedere il contesto delle password. In particolare, risulta efficace per determinare quali caratteri intorno a una specifica sequenza sono presenti; in questo modo il modello riesce a imparare password non presenti nel corpus fornito per l'allenamento.~\cite{fasttext}
+    \item Il modello skip-gram (parametro \texttt{sg = 1}) è stato scelto in quanto la rappresentazione distribuita dell'input è stata utilizzata per prevedere il contesto delle password. In particolare, risulta efficace per determinare quali caratteri intorno a una specifica sequenza sono presenti; in questo modo il modello riesce a imparare password non presenti nel corpus fornito per l'allenamento.~\cite{fasttext}
     \item Il negative sampling (parametro \texttt{negative = 5}) rende l'allenamento più veloce, poiché ciascuna sezione dell'allenamento aggiorna solo una piccola percentuale dei pesi del modello.~\cite{negative} Per dataset di dimensioni maggiori (come in questo caso) è consigliabile impostare il suo valore tra 2 e 5.~\cite{gensim}
     \item La dimensione del vettore contenente gli embedding è impostato a $200$ (parametro \texttt{SIZE = 200}), in modo da potere allenare più velocemente il modello. Normalmente viene raccomandata una dimensione pari a \texttt{SIZE = 300}.~\cite{gensim}
     \item Il subsampling ignora le password più frequenti, ovvero che presentano più di 1000 occorrenze.
-    \item \texttt{mincount} rappresenta il numero minimo di occorrenze di una password nel dataset di training affinché venga considerata nell'allenamento~\cite{biijeta}~\cite{gensim}.
-    \item \texttt{min\_n} e \texttt{max\_n} rappresentano rispettivamente il numero minimo e massimo degli n-gram. Gli N-gram vengono utilizzati per prevedere una sequenza di caratteri e il contesto di quest'ultima. In questo caso essi rappresentano una sequenza di caratteri contigui e il loro scopo è di dare informazioni di contesto e posizionali di una determinata sequenza all'interno di una password~\cite{biijeta}~\cite{gensim}.
+    \item \texttt{mincount} rappresenta il numero minimo di occorrenze di una password nel dataset di training affinché venga considerata nell'allenamento~\cite{bijeeta}~\cite{gensim}.
+    \item \texttt{min\_n} e \texttt{max\_n} rappresentano rispettivamente il numero minimo e massimo degli n-gram. Gli n-gram vengono utilizzati per prevedere una sequenza di caratteri e il contesto di quest'ultima. In questo caso essi rappresentano una sequenza di caratteri contigui e il loro scopo è di dare informazioni di contesto e posizionali di una determinata sequenza all'interno di una password~\cite{bijeeta}~\cite{gensim}.
 \end{itemize}
 
 \subsection{Allenare FastText}
@@ -122,6 +122,6 @@ small_model.save('compressed_model')
 
 Viene definito come \emph{feature selection} il processo di selezione delle feature più importanti da usare per costruire un modello~\cite{bishop2006pattern}~\cite{feature}.
 
-Per \emph{Product quantization} si intende un particolare tipo di quantizzazione vettoriale, che viene utilizzata per la compressione di modelli di linguaggio naturale e di elaborazione di immagini e consente di generare in modo non esponenziale una quantità grande di codice in tempi contenuti e con costi ridotti in termini di memoria~\cite{biijeta}~\cite{compress-fasttext}~\cite{quantization}.
+Per \emph{Product quantization} si intende un particolare tipo di quantizzazione vettoriale, che viene utilizzata per la compressione di modelli di linguaggio naturale e di elaborazione di immagini e consente di generare in modo non esponenziale una quantità grande di codice in tempi contenuti e con costi ridotti in termini di memoria~\cite{bijeeta}~\cite{compress-fasttext}~\cite{quantization}.
 
 Il modello compresso ottenuto dalle operazioni di quantizzazione e di feature selection ha una dimensione di 20 MB.

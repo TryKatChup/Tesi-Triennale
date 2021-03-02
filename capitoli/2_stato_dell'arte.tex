@@ -41,15 +41,15 @@ Altri strumenti, come Kaspersky password checker\footnote{\url{https://password.
 Questi approcci, tuttavia, non controllano la cronologia delle password di uno specifico utente, ma soltanto la resistenza ad attacchi di forza bruta.
 
 Per questo motivo sono state studiate strategie che tengono conto delle credenziali utilizzate.
-Alcune sfruttano un approccio probabilistico, come i \emph{Bloom Filter}~\cite{bloom}. Un'altra possibile modalità utilizza \emph{Word Embedding} di password.
+Alcune sfruttano un approccio probabilistico, come i \emph{Bloom filter}~\cite{bloom}. Un'altra possibile modalità utilizza \emph{word embedding} di password.
 
 \section{Word embedding}
 \label{sec:word embedding}
-Per capire il contesto delle parole e per poterle rappresentare in base alla sfera semantica e alla sintassi, si ricorre un insieme di tecniche che prevedono il \textit{mapping} delle parole o delle frasi di un dizionario in vettori di numeri reali, note come \emph{Word Embedding}.
+Per capire il contesto delle parole e per poterle rappresentare in base alla sfera semantica e alla sintassi, si ricorre un insieme di tecniche che prevedono il mapping delle parole o delle frasi di un dizionario in vettori di numeri reali, note come \emph{word embedding}.
 Parole simili possiedono una codifica simile.
 
 
-Per stabilire il valore di ogni \textit{embedding} si allena una rete neurale con specifici parametri e le dimensioni variano tra 8 (per piccoli dataset) a 1024. Maggiore è la dimensione di un embedding, maggiore risulta la quantità di informazioni relativa alle relazioni tra parole~\cite{tensword}.
+Per stabilire il valore di ogni embedding si allena una rete neurale con specifici parametri e le dimensioni variano tra 8 (per piccoli dataset) a 1024. Maggiore è la dimensione di un embedding, maggiore risulta la quantità di informazioni relativa alle relazioni tra parole~\cite{tensword}.
 
 \subsection{Similarità tra parole}
 \label{Similarita tra parole}
@@ -74,7 +74,7 @@ Quando due vettori risultano più simili tra loro, il valore del coseno risulta 
 \label{sec:tipologie di word embedding}
 \subsubsection{Word2Vec}
 \label{sec:word2vec}
-Word2Vec è un insieme di modelli architetturali e di ottimizzazione utilizzati per imparare \emph{word embedding} da un vasto corpus di dati, sfruttando reti neurali.
+Word2Vec è un insieme di modelli architetturali e di ottimizzazione utilizzati per imparare word embedding da un vasto corpus di dati, sfruttando reti neurali.
 \\
 Un modello allenato con Word2Vec riesce a individuare le parole simili tra loro, in base al contesto, grazie alla \textit{cosine similarity} esaminata precededentemente.
 
@@ -87,11 +87,11 @@ Un modello allenato con Word2Vec riesce a individuare le parole simili tra loro,
 \newpage
 Word2Vec utilizza due modelli di architetture:
 \begin{itemize}
-    \item \emph{CBOW} (continuous bag of words): l'obiettivo del training è combinare le rappresentazioni delle parole limitrofe per prevedere la parola centrale.
-    \item \emph{Skip-gram}: simile a CBOW, con la differenza che viene utilizzata la parola centrale per prevedere le parole circostanti relative allo stesso contesto.
+    \item \textbf{CBOW} (continuous bag of words): l'obiettivo del training è combinare le rappresentazioni delle parole limitrofe per prevedere la parola centrale.
+    \item \textbf{Skip-gram}: simile a CBOW, con la differenza che viene utilizzata la parola centrale per prevedere le parole circostanti relative allo stesso contesto\cite{fasttext}.
 \end{itemize}
 
-\emph{CBOW} risulta più veloce ed efficace in caso di dataset di grandi dimensioni, tuttavia, nonostante la maggiore complessità, \emph{Skip-gram} è in grado di trovare parole non presenti nel corpus, per dataset di minori dimensioni~\cite{mikolov2013efficient}.
+CBOW risulta più veloce ed efficace in caso di dataset di grandi dimensioni, tuttavia, nonostante la maggiore complessità, Skip-gram è in grado di trovare parole non presenti nel corpus, per dataset di minori dimensioni~\cite{mikolov2013efficient}.
 
 
 \subsubsection{FastText}

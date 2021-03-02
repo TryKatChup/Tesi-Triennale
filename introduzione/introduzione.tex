@@ -1,3 +1,23 @@
 \chapter*{Introduzione}
 \chaptermark{Introduzione}
 \addcontentsline{toc}{chapter}{Introduzione}
+La sicurezza informatica risulta importante per la salvaguardia dei dati personali. In particolare, è necessario assicurare i seguenti due aspetti:
+\begin{itemize}
+    \item \textbf{Confidenzialità:} la garanzia per la quale un utente non autorizzato non possa accedere a informazione riservate.
+    \item \textbf{Integrità:} la garanzia per la quale un utente non autorizzato non possa modificare informazioni e dati personali.
+\end{itemize}
+Esistono diversi meccanismi di autenticazione, divisi tra:
+\begin{itemize}
+    \item ``Cosa si possiede'': oggetti fisici fini all'autenticazione, tra i quali chiavi, badge elettronici, token fisici, ecc.
+    \item ``Cosa si è'': identificazione tramite caratteristiche fisiche, tra cui il riconoscimento facciale, l'impronta digitale, scansione dell'iride.
+    \item ``Cosa si sa'': sequenze alfanumeriche che compongono una password o un PIN, informazioni personali private.
+\end{itemize}
+In questo documento si pone maggiore attenzione alla generazione di parole chiave, poiché risulta il meccanismo maggiormente utilizzato e facilmente raggirabile. Esistono diverse tecniche di attacco che compromettono la sicurezza che una password solitamente offre, come ad esempio gli attacchi a forza bruta che tentano tutte le possibili combinazioni di caratteri, oppure gli attacchi a dizionario che utilizzano un corpus di parole.
+
+Le strategie di attacco possono essere di due tipologie in base a se si possiedono dati riguardanti un determinato utente: mirato, nel caso in cui si disponga di informazioni personali riguardanti l'utente e ottenute tramite ingegneria sociale o leak di dati, non mirato altrimenti.
+
+In seguito alla creazione di molteplici profili da parte di un utente e violazioni di dati personali è spesso riscontrata la tendenza di riutilizzare la stessa password ~\cite{google} o varianti di essa. Ciò può comportare la compromissione della propria identità e pericoli relativi alla privacy online.
+
+In questo lavoro di tesi vengono analizzati i pericoli relativi al fenomeno di password reuse, e proposti approcci di prevenzione, che sfruttano tecniche di machine learning basati su lavori presenti in letteratura~\cite{bijeeta}.
+
+Si cercherà in particolare di approfondire l'approccio utilizzato, in modo da potere proporre migliori strategie fini alla analisi della similarità tra password.

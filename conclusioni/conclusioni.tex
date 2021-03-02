@@ -16,7 +16,7 @@ Dopodiché, grazie al metodo di \texttt{product quantization}, è stato compress
     \item verifica della password con la traduzione in codice \texttt{l33t};
     \item verifica se l'edit distance della password superasse 5.
 \end{itemize}
-Infine è stato ricavato il grafico di precision e recall, utile per potere fornire una valutazione dei modelli e della loro affidabilità, ed è stato scoperto che il modello implementato dal paper di riferimento di Bijeeta et alii~\cite{biijeta} che utilizza l'euristica precedentemente citata risulta il peggiore in termini di performance. Ciò era dovuto alla traduzione da parte di \texttt{word2keypress} di caratteri in sequenze composte da \texttt{<c> <s>}, comuni a più password che utilizzavano una alternanza di maiuscole e caratteri speciali.
+Infine è stato ricavato il grafico di precision e recall, utile per potere fornire una valutazione dei modelli e della loro affidabilità, ed è stato scoperto che il modello implementato dal paper di riferimento di Bijeeta et alii~\cite{bijeeta} che utilizza l'euristica precedentemente citata risulta il peggiore in termini di performance. Ciò era dovuto alla traduzione da parte di \texttt{word2keypress} di caratteri in sequenze composte da \texttt{<c> <s>}, comuni a più password che utilizzavano una alternanza di maiuscole e caratteri speciali.
 
 Un altro problema del modello precedentemente citato era determinato dal numero minimo di n-gram, pari a 1, che risultava troppo dispersivo per potere consentire un apprendimento efficace da parte del modello dei caratteri che componevano una password.
 
