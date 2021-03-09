@@ -29,7 +29,7 @@ Per la creazione dei due modelli visti precedentemente, è stato utilizzato un l
     \item sono stati rimossi 4528 utenti associati a centinaia di password, poiché è molto improbabile che siano account veri.
 \end{itemize}
 
-Dal risultato del processo di filtraggio sono state osservati i seguenti punti:
+Dal risultato del processo di filtraggio sono stati osservati i seguenti punti:
 \begin{itemize}
     \item la password 123456 è stata utilizzata dal 0.9\% degli utenti;
     \item più dell'88\% di password hanno una lunghezza compresa tra 6 e 12 caratteri;
@@ -45,27 +45,27 @@ Dal risultato del processo di filtraggio sono state osservati i seguenti punti:
 
 
 
-\section{Strategie di attacco: Pass2Path}
+\section{Strategie di attacco: pass2path}
 \label{sec:pass2path}
 \subsection{Euristiche e appartentenza di password}
 \label{sec:euristiche e appartenenza di password}
 Una volta ottenuto il dataset, è necessario capire a quali persone appartengono gli account. A tal proposito vengono proposte tre euristiche:
 \begin{itemize}
     \item \textbf{Basata su email:} gli utenti vengono identificati solo dalla email. Ciascuna email appartiene a un solo utente.
-    \item \textbf{Basata sugli username:} si considera la stringa che precede \texttt{@} nell'indirizzo email. Un utente può possiedere più mail, tutte identificate dalla stringa che precede \texttt{@}.
+    \item \textbf{Basata sugli username:} si considera la stringa che precede \texttt{@} nell'indirizzo email. Un utente può possedere più mail, tutte identificate dalla stringa che precede \texttt{@}.
     \item \textbf{Basata su un metodo misto:} considera sia gli username che le email. Due email sono considerate connesse tra loro se hanno almeno una password in comune e se le mail connesse tra loro sono associate allo stesso username.
 \end{itemize}
-Per potere effettuare migliori test sul dataset sono stati rimossi gli utenti che avevano meno di due password associate alla stesso account.
+Per potere effettuare migliori test sul dataset sono stati rimossi gli utenti che avevano meno di due password associate allo stesso account.
 
 Il dataset successivamente viene diviso in due parti: training set e test set (in rapporto 80\%-20\% ). Nel paper la fase di training utilizza soltanto il dataset relativo all'euristica basata sulle email, mentre per la fase di testing si utilizza sia l'euristica basata sulle email sia quella mista.
 
-\subsection{Introduzione a Pass2path}
+\subsection{Introduzione a pass2path}
 \label{sec:intro pass2path}
 Pass2path è un modello di rete neurale che consente di creare password in grado di compromettere più del 48\% degli utenti in meno di mille tentativi. Il successo di questo modello è dovuto al riutilizzo della stessa password o di varianti di password da parte dell'utente.
 Per svilupparlo si è tenuto conto della sequenza di trasformazioni $\tau_1...\tau_n $, nota come \emph{percorso} che consente, a partire dalla password  $\tilde{w}$, di produrre la nuova password $w$.
 
 
-Le modifiche sono rappresentate da una unità di misura $\tau\in \mathcal{T}$, che specifica in che posizione e quale tipo di variazione applicare in una password.
+Le modifiche sono rappresentate da una unità di misura $\tau\in \mathcal{T}$, che specifica in che posizione e quale tipo di variazione applicare a una password.
 \\
 $\tau$ è composto da una tripletta  $\{e, c', l\}$:
 \begin{itemize}
@@ -133,7 +133,7 @@ Si utilizzano due reti neurali ricorrenti (RNN) per costruire un auto-encoder~\c
 \subsection{Efficacia d'attacco con configurazioni non ripetute}
 \label{sec:attacco conf non ripetute}
 Per verificare l'efficacia di attacco della rete si utilizza il dataset di test delle email, con password da indovinare $w$ diverse dalla originale $\tilde{w}$.
-Con configurazioni non ripetute, Pass2path riesce in meno di 100 stime a ricavare
+Con configurazioni non ripetute, pass2path riesce in meno di 100 stime a ricavare
 il 13\% delle password, impiegando 4 ore in tutto (Intel i9 e 128 GB di RAM, su un singolo thread).
 \begin{figure}[h]
     \centering
@@ -201,14 +201,14 @@ Per l'allenamento del modello di FastText vengono considerati i seguenti paramet
 \begin{itemize}
     \item \textbf{Dimensione del vettore}: impostata a 100, poiché l'allenamento del modello così risulta più rapido rispetto al parametro di default a 300.
     \item \textbf{Subsampling}: ignora le password che ricorrono più frequentemente. Impostato a $10^{-3}$, poiché non si vogliono password con più di 1000 occorrenze.
-    \item \textbf{Dimensione minima degli ngram}: impostata a 1, in modo che possano costruiti embedding per password mai viste durante l'allenamento.
+    \item \textbf{Dimensione minima degli ngram}: impostata a 1, in modo che possano essere costruiti embedding per password mai viste durante l'allenamento.
     \item \textbf{Dimensione massima degli ngram}: impostata a 4, dato che le parole presenti nel dataset hanno come minimo 4 caratteri.
 \end{itemize}
 \subsection{Classificazione delle password}
 \label{sec:classificazione password}
 Per classificare le password viene utilizzato un classificatore binario che restituisce 0 se le password sono simili tra loro, superando una soglia $\alpha$ di similarità decisa prima della misurazione, 1 altrimenti.
 
-Una password risulta vulnerabile se, data una password $w$, essa viene indovinata in meno di 1000 tentativi a partire dalla password $\tilde{w}$, utilizzando come euristica Pass2Path.
+Una password risulta vulnerabile se, data una password $w$, essa viene indovinata in meno di 1000 tentativi a partire dalla password $\tilde{w}$, utilizzando come euristica pass2Path.
 Per determinare la soglia $\alpha$, vengono considerati $10^5$ utenti dal dataset di test delle email e per ciascun utente vengono sorteggiate due password dalla collezione di password associati a essi. Una delle due password (la scelta della password è arbitraria) viene considerata come la nuova password da indovinare $w$, mentre l'altra password $\tilde{w}$ rappresenta la password trovata in un leak.
 \begin{figure}[h!]
     \centering
