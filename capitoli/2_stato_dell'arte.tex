@@ -45,7 +45,7 @@ Alcune sfruttano un approccio probabilistico, come i \emph{Bloom filter}~\cite{b
 
 \section{Word embedding}
 \label{sec:word embedding}
-Per capire il contesto delle parole e per poterle rappresentare in base alla sfera semantica e alla sintassi, si ricorre un insieme di tecniche che prevedono il mapping delle parole o delle frasi di un dizionario in vettori di numeri reali, note come \emph{word embedding}.
+Per capire il contesto delle parole e per poterle rappresentare in base alla sfera semantica e alla sintassi, si ricorre a un insieme di tecniche che prevedono il mapping delle parole o delle frasi di un dizionario in vettori di numeri reali, note come \emph{word embedding}.
 Parole simili possiedono una codifica simile.
 
 
@@ -112,6 +112,5 @@ Ad esempio, gli n-gram della parola ciao, con $n\_mingram = 1$ e $n\_maxgram = 4
 $ciao$ viene espresso come l'insieme di tutte le sottostringhe di lunghezza minima pari a 1, e lunghezza massima pari a 4.
 
 %In questo esempio, con $n\_mingram = 1$ e $n\_maxgram = 4$, $ciao$ viene espresso come l'insieme di tutte le sottostringhe di lunghezza minima pari a 1, e lunghezza massima pari a 4.
-
 
 FastText consente di ottenere, con più probabilità rispetto a Word2Vec, parole \emph{out-of-dictionary}, ovvero parole sconosciute al modello in fase di training.

@@ -157,7 +157,7 @@ I motivi per cui il modello di Bijeeta et alii~\cite{bijeeta} è risultato il pe
 \label{sec:soglia similarita valutazione due password}
 Per potere determinare se due password siano simili tra loro occorre definire la soglia di similarità $\alpha$, tenendo in considerazione i valori di precision e recall ottimali.
 
-Nel caso in studio, è necessario avere un valore di recall più alto rispetto al valore di precision, dato che è importante rilevare più password simili tra loro possibili. Questo tuttavia, per valori di precision molti bassi (come accennato nel paragrafo \ref{sec:classificazione password}) può comportare un'alta percentuale di alti positivi, ovvero di coppie di password considerate come simili, anche se abbastanza diverse tra loro.
+Nel caso in studio, è necessario avere un valore di recall più alto rispetto al valore di precision, dato che è importante rilevare più password simili tra loro possibili. Questo tuttavia, per valori di precision molti bassi (come accennato nel paragrafo \ref{sec:classificazione password}) può comportare un'alta percentuale di falsi positivi, ovvero di coppie di password considerate come simili, anche se abbastanza diverse tra loro.
 
 Un buon compromesso è stato raggiunto con $\alpha = 0.6$ (rappresentato dalle ascisse dei grafici con precision e recall); nel modello mostrato in figura \ref{quintomodello} si ha, per $\alpha = 0.6$ precision pari a $\simeq 77\%$ e recall pari a $\simeq 89\%$.
 

@@ -22,11 +22,11 @@ Si è deciso di allenare 5 diversi modelli:
 \label{sec:precondizioni}
 Prima della fase di allenamento della rete, è necessario avere un dataset valido di password; nel progetto è stato utilizzato lo stesso data breach da 45 GB citato da Bijeeta et alii~\cite{bijeeta}, tuttavia sono stati scelti criteri diversi di filtraggio:
 \begin{itemize}
-    \item Sono state rimossi gli account con password con lunghezza inferiore a 4 caratteri o maggiore di 30.
-    \item Sono state rimosse gli account con password che presentavano caratteri non ASCII o non stampabili.
+    \item Sono stati rimossi gli account con password con lunghezza inferiore a 4 caratteri o maggiore di 30.
+    \item Sono stati rimossi gli account con password che presentavano caratteri non ASCII o non stampabili.
     \item Sono stati rimossi gli account creati da bot, riconoscibili grazie al numero di occorrenze della stessa email nel dataset, superiore a 100.
     \item Sono stati rimossi gli account con password contententi sequenze esadecimali (identificate da \texttt{\$HEX[]} e \texttt{\textbackslash x}).
-    \item Sono stati rimossi sequenze che rappresentano caratteri in HTML, come:
+    \item Sono state rimosse sequenze che rappresentano caratteri in HTML, come:
     \begin{itemize}
         \item \texttt{\&gt} (simbolo $>$);
         \item \texttt{\&ge} (simbolo $\geq$);
@@ -38,7 +38,7 @@ Prima della fase di allenamento della rete, è necessario avere un dataset valid
     \item Sono stati rimossi gli account che presentavano meno di 2 password, poiché più password per utente risultano indispensabili per ricavare la similarità.
 \end{itemize}
 Successivamente, in accordo con Bijeeta et alii~\cite{bijeeta}, per i modelli che prevedevano la memorizzazione delle sequenze di tasti premuti, è stata utilizzata la libreria python \texttt{word2keypress}\footnote{\url{https://github.com/rchatterjee/word2keypress}}.
-Successivamente i risultati sono stati salvati in un file \texttt{csv} nel seguente formato:
+Infine, i risultati sono stati salvati in un file \texttt{csv} nel seguente formato:
 \begin{center}
     \texttt{sample@gmail.com: ["'97314348'", "'voyager<s>1'"]}
 \end{center}
@@ -122,6 +122,6 @@ small_model.save('compressed_model')
 
 Viene definito come \emph{feature selection} il processo di selezione delle feature più importanti da usare per costruire un modello~\cite{bishop2006pattern}~\cite{feature}.
 
-Per \emph{Product quantization} si intende un particolare tipo di quantizzazione vettoriale, che viene utilizzata per la compressione di modelli di linguaggio naturale e di elaborazione di immagini e consente di generare in modo non esponenziale una quantità grande di codice in tempi contenuti e con costi ridotti in termini di memoria~\cite{bijeeta}~\cite{compress-fasttext}~\cite{quantization}.
+Per \emph{product quantization} si intende un particolare tipo di quantizzazione vettoriale, che viene utilizzata per la compressione di modelli di linguaggio naturale e di elaborazione di immagini e consente di generare in modo non esponenziale una quantità grande di codice in tempi contenuti e con costi ridotti in termini di memoria~\cite{bijeeta}~\cite{compress-fasttext}~\cite{quantization}.
 
 Il modello compresso ottenuto dalle operazioni di quantizzazione e di feature selection ha una dimensione di 20 MB.
